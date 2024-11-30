@@ -1,3 +1,5 @@
+from typing import Set
+
 import requests
 
 
@@ -43,3 +45,17 @@ def find_id(text: str):
         j -= 1
 
     return int(text[i : j + 1])
+
+
+MAX_IDS_PER_PAGE = 24
+
+def save_to_file(page_number: str, ids: Set[int]):
+    with open("ids.txt", 'a') as f:
+        f.write(f"<Page Number: {page_number}>\n")
+
+        f.write('[')
+        for idx, id in enumerate(ids):
+            f.write(f"{id}, " if idx < MAX_IDS_PER_PAGE else f"{id}")
+            f.write("\n")
+
+        f.write("]\n")
