@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 
 from pages.login_modal import open_page
 from pages.initial_form import fill_page, submit_form, temp_form_data
+from pages.results_page import get_table_ids
 
 
 def setup_driver() -> WebDriver:
@@ -13,16 +14,16 @@ def setup_driver() -> WebDriver:
 
 
 if __name__ == "__main__":
-    try:
-        driver = setup_driver()
-        open_page(driver, "https://core.duvalclerk.com/CoreCms.aspx?mode=PublicAccess")
+    driver = setup_driver()
+    open_page(driver, "https://core.duvalclerk.com/CoreCms.aspx?mode=PublicAccess")
 
-        fill_page(driver, temp_form_data)
-        submit_form(driver)
-    except Exception as e:
-        print(f"UnSupported expection happed (D:): {e}")
-    finally:
-        while getch().decode('utf-8').lower() != 'q':
-            continue   
-        print("q was pressed. Closing progrm") 
-        driver.quit()
+    fill_page(driver, temp_form_data)
+    submit_form(driver)
+
+    ids, page_number = get_table_ids(driver)
+    
+    while chr(int.from_bytes(getch())) != "q":
+        continue
+
+    print("q was pressed. Closing progrm")
+    driver.quit()
