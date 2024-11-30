@@ -30,3 +30,16 @@ def get_case_by_id(case_id, token):
         return response.json()
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
+
+
+def find_id(text: str):
+    i = 0
+    j = len(text) - 1
+
+    while i < len(text) and not text[i].isdigit():
+        i += 1
+
+    while j >= 0 and not text[j].isdigit():
+        j -= 1
+
+    return int(text[i : j + 1])
